@@ -48,8 +48,15 @@ const menuTree = [
        menuSupId: null
     },
   ]
+
+  interface Route{
+    id: string;
+    label: string;
+    link: string;
+    menuSupId: string | null
+  }
   
-  const routing = (id:string) => {
+  const routing = (id:string): Route[] | null => {
    const rootRoute =  menuTree.find(route =>  id === route.id );
    if(!rootRoute){
      return null
