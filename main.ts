@@ -9,7 +9,7 @@ import { routing } from "./routing"
   console.log(routing("register"))
   
  
-  console.log("-------------- Test 3 - Store --------------")
+  console.log("-------------- Test 3 --------------")
   console.log(routing("store"))
  
   

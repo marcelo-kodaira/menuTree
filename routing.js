@@ -2,54 +2,27 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.routing = void 0;
 const menuTree_1 = require("./menuTree");
-class TreeNode {
-    constructor(route) {
-        this.route = route;
-        this.children = [];
-    }
-    toJSON() {
-        return Object.assign(Object.assign({}, this.route), { children: this.children });
-    }
-}
-const buildMenuTree = (routes) => {
-    const routeMap = {};
-    for (const route of routes) {
-        routeMap[route.id] = new TreeNode(route);
-    }
-    const roots = [];
-    for (const route of routes) {
-        const currentNode = routeMap[route.id];
-        const parentID = route.menuSupId;
-        if (parentID) {
-            const parentNode = routeMap[parentID];
-            parentNode.children.push(currentNode);
-        }
-        else {
-            roots.push(currentNode);
-        }
-    }
-    return roots;
-};
 const routing = (id) => {
-    const roots = buildMenuTree(menuTree_1.menuTree);
-    const findNode = (node, targetId) => {
-        if (node.route.id === targetId) {
-            return node;
+    var _a;
+    const result = new Set();
+    const queue = [id];
+    const visitedIds = new Set();
+    while (queue.length > 0) {
+        const currentId = (_a = queue.shift()) !== null && _a !== void 0 ? _a : '';
+        if (visitedIds.has(currentId)) {
+            continue;
         }
-        for (const childNode of node.children) {
-            const foundNode = findNode(childNode, targetId);
-            if (foundNode !== null) {
-                return foundNode;
+        visitedIds.add(currentId);
+        menuTree_1.menuTree.reduce((acc, item) => {
+            if (item.id === currentId || item.menuSupId === currentId) {
+                acc.add(item);
+                if (!visitedIds.has(item.id)) {
+                    queue.push(item.id);
+                }
             }
-        }
-        return null;
-    };
-    for (const root of roots) {
-        const targetNode = findNode(root, id);
-        if (targetNode !== null) {
-            return JSON.stringify(targetNode, null, 2);
-        }
+            return acc;
+        }, result);
     }
-    return null;
+    return [...result];
 };
 exports.routing = routing;

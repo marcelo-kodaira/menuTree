@@ -5,7 +5,7 @@ console.log("-------------- Test 1 --------------");
 console.log((0, routing_1.routing)("home"));
 console.log("-------------- Test 2 --------------");
 console.log((0, routing_1.routing)("register"));
-console.log("-------------- Test 3 - Store --------------");
+console.log("-------------- Test 3 --------------");
 console.log((0, routing_1.routing)("store"));
 console.log("-------------- Test 4 --------------");
 console.log((0, routing_1.routing)("nonValidId"));
