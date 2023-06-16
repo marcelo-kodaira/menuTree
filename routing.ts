@@ -44,7 +44,7 @@ const buildMenuTree = (routes: Route[]): TreeNode[] => {
   return roots;
 };
 
-export const routing = (id: string): string | null => {
+export const routing = (id: string): string | [] => {
   const roots = buildMenuTree(menuTree);
 
   const findNode = (node: TreeNode, targetId: string): TreeNode | null => {
@@ -69,6 +69,6 @@ export const routing = (id: string): string | null => {
     }
   }
 
-  return null;
+  return [];
 };
 

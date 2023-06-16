@@ -50,6 +50,6 @@ const routing = (id) => {
             return JSON.stringify(targetNode, null, 2);
         }
     }
-    return null;
+    return [];
 };
 exports.routing = routing;
