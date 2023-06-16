@@ -1,17 +1,23 @@
 import { menuTree } from "./menuTree";
 
-interface Route{
-    id: string;
-    label: string;
-    link: string;
-    menuSupId: string | null
+interface Route {
+  id: string;
+  label: string;
+  link: string;
+  menuSupId: string | null;
+}
+
+const findSubMenus = (id: string): Route[] => {
+  const subMenus = menuTree.filter(route => route.menuSupId === id);
+  return subMenus.reduce((acc: Route[], subMenu) => {
+    return [...acc, subMenu, ...findSubMenus(subMenu.id)];
+  }, []);
+};
+
+export const routing = (id: string): Route[] => {
+  const rootRoute = menuTree.find(route => route.id === id);
+  if (!rootRoute) {
+    return [];
   }
-  
-export const routing = (id:string): Route[] | null => {
-   const rootRoute =  menuTree.find(route =>  id === route.id );
-   if(!rootRoute){
-     return null
-   }
-   const childrenRoute = menuTree.filter(route => route.menuSupId === id)
-   return [rootRoute, ...childrenRoute]
-  }
+  return [rootRoute, ...findSubMenus(id)];
+};
